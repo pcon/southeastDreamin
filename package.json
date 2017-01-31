@@ -1,0 +1,16 @@
+{
+    "name": "SoutheastDreamin",
+    "version": "1.0.0",
+    "description": "Scripts to help with Southeast Dreamin",
+    "homepage": "http://southeastdreamin.com",
+    "license": "GPL-3.0",
+    "dependencies": {
+        "bunyan": "1.8.5",
+        "gmail-send": "1.2.6",
+        "handlebars": "4.0.6",
+        "jsforce": "1.7.1",
+        "lodash": "4.17.4",
+        "q": "1.4.1"
+    },
+    "private": true
+}
