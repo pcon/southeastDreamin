@@ -1,0 +1,16 @@
+{{Name}},
+
+We wish we had better news. We’re sorry to say your session(s) were not selected for Southeast Dreamin ‘19. If you submitted multiple proposals, you may have received a separate acceptance email for that session.
+
+{{#each Sessions}}
+* {{Title}}
+{{/each}}
+
+We know session proposals take time and we realize you’re probably disappointed. Not to sound cliche, but we deliberated hard on each proposal. We received over 150 proposals for 25 slots. As a result, awesome proposals had to be declined.
+
+Although your session wasn’t picked this year, your passion for sharing your knowledge is greatly appreciated. We hope you’ll consider submitting again for Southeast Dreamin ‘20!
+
+As a token of our appreciation, please use this code for $25 off registration: 25OFF
+
+Once again, thank you!
+Patrick & Amber

@@ -21,6 +21,9 @@ var template = {
     text: undefined
 };
 
+var notified_sessions = [];
+var failed_sessions = [];
+
 var readFile = function (fname) {
     'use strict';
 
@@ -42,15 +45,15 @@ var readTemplates = function () {
 
     var deferred = Q.defer();
 
-    readFile('tmpl/2017/sessionAcceptance.sub')
+    readFile('tmpl/2019/sessionAcceptance.sub')
         .then(function (subject) {
             template.subject = handlebars.compile(subject);
 
-            readFile('tmpl/2017/sessionAcceptance.html')
+            readFile('tmpl/2019/sessionAcceptance.html')
                 .then(function (html) {
                     template.html = handlebars.compile(html);
 
-                    readFile('tmpl/2017/sessionAcceptance.txt')
+                    readFile('tmpl/2019/sessionAcceptance.txt')
                         .then(function (text) {
                             template.text = handlebars.compile(text);
 
@@ -74,7 +77,7 @@ var getAcceptedSessions = function () {
 
     var deferred = Q.defer();
 
-    sfdc.query('select Name, Session_Manager__r.Email, Related_Contact__r.FirstName, Related_Contact__r.Email from Session__c where RecordType.Name = \'Chosen/Picked\' and Related_Contact__r.Email != null and Session_Status__c = \'Accepted\'')
+    sfdc.query('select Id, Name, Session_Manager__r.Email, Main_Presenter__r.FirstName, Main_Presenter__r.Email from Session__c where Event__c = \'a034100002l1htyAAA\' and RecordType.Name = \'Chosen/Picked\' and Main_Presenter__r.Email != null and Session_Status__c = \'Accepted\'')
         .then(function (data) {
             deferred.resolve(data);
         }).catch(function (err) {
@@ -91,16 +94,18 @@ var mogrifySessionData = function (sessions) {
         deferred = Q.defer();
 
     lo.forEach(sessions, function (session) {
-        if (!sessionMap.hasOwnProperty(session.Related_Contact__r.Email)) {
-            sessionMap[session.Related_Contact__r.Email] = {
-                Email: session.Related_Contact__r.Email,
-                Name: session.Related_Contact__r.FirstName,
+        if (!sessionMap.hasOwnProperty(session.Main_Presenter__r.Email)) {
+            sessionMap[session.Main_Presenter__r.Email] = {
+                Ids: [],
+                Email: session.Main_Presenter__r.Email,
+                Name: session.Main_Presenter__r.FirstName,
                 ManagerEmail: session.Session_Manager__r.Email,
                 Sessions: []
             };
         }
 
-        sessionMap[session.Related_Contact__r.Email].Sessions.push({Title: session.Name});
+        sessionMap[session.Main_Presenter__r.Email].Sessions.push({Title: session.Name});
+        sessionMap[session.Main_Presenter__r.Email].Ids.push(session.Id);
     });
 
     deferred.resolve(lo.values(sessionMap));
@@ -115,9 +120,12 @@ var sendEmail = function (session) {
 
     email.send(template, session)
         .then(function () {
+            logger.info('Email sent for ' + session.Ids);
+            notified_sessions = lo.union(notified_sessions, session.Ids);
             deferred.resolve();
         }).catch(function (err) {
-            logger.error('Unable to send email to ' + session.Email);
+			logger.error('Unable to send email to ' + session.Email + ' - ' + lo.join(session.Ids, ','));
+            failed_sessions = lo.union(failed_sessions, session.Ids);
             deferred.reject(err);
         });
 
@@ -137,19 +145,32 @@ var sendEmails = function (sessions) {
 
     Q.allSettled(promises)
         .then(function (results) {
-            results.forEach(function (result) {
-                if (result.state !== 'fulfilled') {
-                    logger.error(results.reason);
-                    success = false;
-                }
-            });
-
-            if (success) {
-                deferred.resolve();
-            } else {
-                deferred.reject(new Error('Something went wrong sending emails'));
-            }
+            deferred.resolve();
         });
+
+    return deferred.promise;
+};
+
+var updateStatus = function () {
+    'use strict';
+
+    var successful_records = [],
+        deferred = Q.defer();
+
+	lo.forEach(notified_sessions, function (id) {
+		successful_records.push({
+			Id: id,
+			Session_Status__c: 'Notified'
+		});
+	});
+
+	logger.info('Updating ' + lo.size(successful_records) + '\n' + lo.join(notified_sessions, '\n'));
+	sfdc.update('Session__c', successful_records)
+		.then(function () {
+			deferred.resolve();
+		}).catch(function (err) {
+			deferred.reject(err);
+		});
 
     return deferred.promise;
 };
@@ -158,6 +179,7 @@ readTemplates()
     .then(getAcceptedSessions)
     .then(mogrifySessionData)
     .then(sendEmails)
+	.then(updateStatus)
     .catch(function (err) {
         'use strict';
 

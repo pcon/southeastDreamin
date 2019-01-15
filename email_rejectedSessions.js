@@ -8,7 +8,7 @@ var Q = require('q');
 var bunyan = require('bunyan');
 
 var logger = bunyan.createLogger({
-    name: "email_acceptedSessions",
+    name: "email_declinedSessions",
     stream: process.stdout
 });
 
@@ -45,15 +45,15 @@ var readTemplates = function () {
 
     var deferred = Q.defer();
 
-    readFile('tmpl/2017/sessionRejection.sub')
+    readFile('tmpl/2019/sessionRejection.sub')
         .then(function (subject) {
             template.subject = handlebars.compile(subject);
 
-            readFile('tmpl/2017/sessionRejection.html')
+            readFile('tmpl/2019/sessionRejection.html')
                 .then(function (html) {
                     template.html = handlebars.compile(html);
 
-                    readFile('tmpl/2017/sessionRejection.txt')
+                    readFile('tmpl/2019/sessionRejection.txt')
                         .then(function (text) {
                             template.text = handlebars.compile(text);
 
@@ -72,12 +72,12 @@ var readTemplates = function () {
     return deferred.promise;
 };
 
-var getAcceptedSessions = function () {
+var getDeclinedSessions = function () {
     'use strict';
 
     var deferred = Q.defer();
 
-    sfdc.query('select Id, Name, Related_Contact__r.FirstName, Related_Contact__r.Email from Session__c where RecordType.Name = \'Submission\' and Related_Contact__r.Email != null order by Related_Contact__r.Email')
+    sfdc.query('select Id, Name, Main_Presenter__r.FirstName, Main_Presenter__r.Email from Session__c where Event__c = \'a034100002l1htyAAA\' and RecordType.Name = \'Rejected\' and Main_Presenter__r.Email != null order by Main_Presenter__r.Email')
         .then(function (data) {
             deferred.resolve(data);
         }).catch(function (err) {
@@ -94,17 +94,17 @@ var mogrifySessionData = function (sessions) {
         deferred = Q.defer();
 
     lo.forEach(sessions, function (session) {
-        if (!sessionMap.hasOwnProperty(session.Related_Contact__r.Email)) {
-            sessionMap[session.Related_Contact__r.Email] = {
+        if (!sessionMap.hasOwnProperty(session.Main_Presenter__r.Email)) {
+            sessionMap[session.Main_Presenter__r.Email] = {
                 Ids: [],
-                Email: session.Related_Contact__r.Email,
-                Name: session.Related_Contact__r.FirstName,
+                Email: session.Main_Presenter__r.Email,
+                Name: session.Main_Presenter__r.FirstName,
                 Sessions: []
             };
         }
 
-        sessionMap[session.Related_Contact__r.Email].Sessions.push({Title: session.Name});
-        sessionMap[session.Related_Contact__r.Email].Ids.push(session.Id);
+        sessionMap[session.Main_Presenter__r.Email].Sessions.push({Title: session.Name});
+        sessionMap[session.Main_Presenter__r.Email].Ids.push(session.Id);
     });
 
     deferred.resolve(lo.values(sessionMap));
@@ -178,10 +178,10 @@ var updateRecordTypes = function () {
 };
 
 readTemplates()
-    .then(getAcceptedSessions)
+    .then(getDeclinedSessions)
     .then(mogrifySessionData)
     .then(sendEmails)
-    .then(updateRecordTypes)
+//    .then(updateRecordTypes)
     .then(function () {
         'use strict';
 
