@@ -6,12 +6,14 @@
   "license": "GPL-3.0",
   "dependencies": {
     "bunyan": "1.8.5",
+    "csv-writer": "^1.2.0",
     "gmail-send": "1.2.6",
     "handlebars": "4.0.6",
     "jsforce": "1.7.1",
     "lodash": "4.17.4",
     "mailgun-js": "^0.22.0",
-    "q": "1.4.1"
+    "q": "1.4.1",
+    "yargs": "^12.0.5"
   },
   "private": true
 }
