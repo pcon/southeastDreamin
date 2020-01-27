@@ -5,15 +5,13 @@
   "homepage": "http://southeastdreamin.com",
   "license": "GPL-3.0",
   "dependencies": {
-    "bunyan": "1.8.5",
+    "bunyan": "^1.8.12",
     "csv-writer": "^1.2.0",
-    "gmail-send": "1.2.6",
-    "handlebars": "4.0.6",
-    "jsforce": "1.7.1",
-    "lodash": "4.17.4",
+    "handlebars": "^4.7.2",
+    "jsforce": "^1.9.3",
+    "lodash": "^4.17.15",
     "mailgun-js": "^0.22.0",
-    "q": "1.4.1",
-    "yargs": "^12.0.5"
+    "q": "^1.5.1"
   },
   "private": true,
   "devDependencies": {
