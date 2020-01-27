@@ -10,7 +10,7 @@
     "gmail-send": "1.2.6",
     "handlebars": "4.0.6",
     "jsforce": "1.7.1",
-    "lodash": "4.17.4",
+    "lodash": "4.17.13",
     "mailgun-js": "^0.22.0",
     "q": "1.4.1",
     "yargs": "^12.0.5"
