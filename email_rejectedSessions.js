@@ -32,7 +32,7 @@ const FIELDS = [
 
 const CONDITIONS = [
     `Event__c = '${EVENT_ID}'`,
-    'RecordType.Name = \'Rejected\'',
+    'RecordType.Name = \'Submitted\'',
     'Main_Presenter__r.Email != null'
 ];
 

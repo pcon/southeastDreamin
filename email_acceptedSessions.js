@@ -7,7 +7,7 @@ global.logger = bunyan.createLogger({
     stream: process.stdout
 });
 
-const sfdc = require('./lib/sfdc.js');
+const sfdc = require('./lib/sfdc');
 const utils = require('./lib/utils');
 
 global.template = {
@@ -77,9 +77,6 @@ var updateStatus = function () {
 utils.readTemplates(EVENT_YEAR, 'sessionAcceptance')
     .then(getAcceptedSessions)
     .then(utils.mogrifySessionData)
-    .then(function (data) {
-        global.logger.info(data);
-    })
     .then(utils.sendEmails)
     .then(updateStatus)
     .catch(function (err) {
