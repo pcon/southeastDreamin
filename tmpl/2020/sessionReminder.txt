@@ -1,0 +1,42 @@
+{{Name}},
+
+We reached out to you earlier this week to let you know that your session has been accepted for Southeast Dreamin ‘20.  However, today is the deadline for letting us know that you are going to come.  If we do not hear from you ASAP we will replace your session with another session from our over 230 submitted topics.
+
+{{#each Sessions}}
+Session Name: {{Title}}
+{{/each}}
+
+Your To Do’s
+* Reply letting us know you’re still in: due 1/31
+* Reply letting us know if you have a co-speaker: due 1/31
+  * Name
+  * Email
+* Send web-ready speaker info to {{ManagerEmail}}: due 1/31.
+  * Your details
+    * Name
+    * Title
+    * Company
+    * Your fav social media URL (if applicable)
+  * A headshot (of your gorgeous face)
+* Register for free [1] with the speaker code (SEDSPEAKER2020): due ASAP
+  * Please share this with your co-speaker (if applicable).
+  * Please DO NOT share this code with anyone else. :-)
+  * If you have already registered please email speakerrefunds@sedreamin.com to request a refund.
+* Reserve your hotel room [2]: due ASAP
+* Start publicizing your session (Twitter, LinkedIn, Facebook, user groups, etc.): due ASAP
+  * Relevant hashtag: #SED19
+* Completed slides sent to {{ManagerEmail}}: due 3/12
+  * Please use our slide template [3]
+
+Contact info to keep handy:
+  * Patrick Connelly - 919-624-0764
+  * Amber Boaz - 919-618-1584
+
+We look forward to seeing you in Atlanta!!
+Patrick & Amber
+
+P.S. If you have a co-presenter, please forward this email to them to spread the love!
+
+[1] https://www.southeastdreamin.com/registertoday/
+[2] https://book.passkey.com/e/50054016
+[3] http://bit.ly/sed20slides
