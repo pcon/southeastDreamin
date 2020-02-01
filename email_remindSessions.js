@@ -1,5 +1,4 @@
 const lo = require('lodash');
-const Q = require('q');
 const bunyan = require('bunyan');
 
 global.logger = bunyan.createLogger({
