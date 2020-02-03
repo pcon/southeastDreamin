@@ -2,6 +2,8 @@
 
 We have reached out to you twice this last week to let you know that your session had been accepted and that you had an action waiting on you to let us know if you were still available.  Unfortunately, that deadline has come and gone and in fairness to the other community members that submitted sessions we are going to have to recind our offer and find a replacement session.
 
+Your passion for sharing your knowledge is greatly appreciated. We are going to open our blog to those interested in turning submissions into posts. Let us know if you are interested in participating by emailing blog@sedreamin.com. If not, we hope you’ll consider submitting again for Southeast Dreamin ‘21!
+
 {{#each Sessions}}
 Session Name: {{Title}}
 {{/each}}
