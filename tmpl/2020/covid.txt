@@ -1,0 +1,11 @@
+{{Name}},
+
+As you may aware, Salesforce has recently halted [1] all of the international travel and most of their domestic travel.  Currently Southeast Dreamin' is still planning to occur as scheduled.  We will keep our COVID-19 page [2] updated with the most recent information as well as emailing you if things change.
+
+We would like to please have you confirm that you are still able to travel and will still be presenting for us by replying back to this email.  If after you let us know something changes, please let us know ASAP so that we can work on modifying our event schedule.
+
+We look forward to seeing you in Atlanta!!
+Patrick & Amber
+
+[1] https://www.salesforce.com/blog/2020/03/safety-and-wellbeing-those-around-you.html
+[2] https://www.southeastdreamin.com/covid-19-update/
