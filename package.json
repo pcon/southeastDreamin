@@ -9,7 +9,7 @@
     "csv-writer": "^1.2.0",
     "handlebars": "^4.7.2",
     "jsforce": "^1.9.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mailgun-js": "^0.22.0",
     "q": "^1.5.1"
   },
